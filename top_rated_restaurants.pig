@@ -19,4 +19,4 @@ limit_business = LIMIT business_ordered 5;
 
 DUMP limit_business;
 
-STORE limit_business into 'test' using PigStorage(',');
+STORE limit_business into 'top_five' using PigStorage(',');
