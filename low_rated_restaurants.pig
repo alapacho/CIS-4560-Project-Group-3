@@ -10,7 +10,7 @@ low_rated_city = FILTER low_rated_bus BY city == 'Toronto';
 low_rated_categ = FILTER low_rated_city BY (categories matches '.*Restaurant*.');
 
 
-foreach_business = FOREACH low_rated_categ GENERATE business_id,name,city,latitude,longitude,stars,categories;
+foreach_business = FOREACH low_rated_categ GENERATE business_id,name,city,state,country,latitude,longitude,stars,categories;
 
 business_ordered = ORDER foreach_business BY stars ASC;
 
