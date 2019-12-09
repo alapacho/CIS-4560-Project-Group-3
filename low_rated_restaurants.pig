@@ -18,6 +18,6 @@ business_ordered = ORDER foreach_business BY stars ASC;
 limit_business = LIMIT business_ordered 5;
 
 
-DUMP limit_business;
+STORE limit_business into 'low_five' using PigStorage(',');
 
 
