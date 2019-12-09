@@ -1,0 +1,4 @@
+GitHub URL: https://github.com/alapacho/CIS-4560-Project-Group-3.git
+
+Yelp Dataset URL: https://www.yelp.com/dataset/challenge
+---Scroll down until you see "Download Dataset"---
