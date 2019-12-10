@@ -1,4 +1,4 @@
-business_name,city,state,latitude,longitude,user_name,date
+business_name,city,state,latitude,longitude,user_name,stars,date
 Nori Japan,Toronto,ON,43.647263,-79.3786,Jenny,4.0,2018-07-21 23:02:34
 Nori Japan,Toronto,ON,43.647263,-79.3786,Annie,1.0,2018-09-12 21:24:08
 Nori Japan,Toronto,ON,43.647263,-79.3786,Edwin,2.0,2018-04-14 16:54:08
