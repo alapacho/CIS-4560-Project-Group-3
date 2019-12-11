@@ -1,11 +1,13 @@
---LOADING USER.JSON, REVIEW.JSON, BUSINESS.JSON FILES INTO PIG
-users = LOAD 'user.json' using JsonLoader('user_id:chararray,name:chararray,review_count:int,yelping_since:chararray,friends:(friends_id:chararray),useful:int,funny:int,cool:chararray,fans:chararray,elite:(user_elite:int),average_stars:chararray,compliment_hot:int,compliment_more:int,compliment_profile:int,compliment_cute:int,compliment_list:int,compliment_note:int,compliment_plain:int,compliment_cool:int,compliment_funny:int,compliment_writer:int,compliment_photos:int');  
+--LOADING USER.JSON, REVIEW.JSON, BUSINESS.JSON FILES INTO PIG                                                       
+users = LOAD 'user.json' using JsonLoader('user_id:chararray,name:chararray,review_count:int,yelping_since:chararray,friends:(friends_id:chararray),useful:int,funny:int,cool:chararray,fans:chararray,elite:(user_elite:int),average_stars:chararray,compliment_hot:int,compliment_more:int,compliment_profile:int,compliment_cute:int,compliment_list:int,compliment_note:int,compliment_plain:int,compliment_cool:int,compliment_funny:int,compliment_writer:int,compliment_photos:int');                                                                                                                                                                                                                                           
+review = LOAD 'review.json' using JsonLoader('review_id:chararray,user_id:chararray,business_id:chararray,stars:chararray,cool:chararray,funny:chararray,useful:chararray,text:chararray,date:chararray');
 
-review = LOAD 'review.json' using JsonLoader('review_id:chararray,user_id:chararray,business_id:chararray,stars:chararray,cool:chararray,funny:chararray,useful:chararray,text:chararray,date:chararray');                                                                        
-business = LOAD 'business.json' using JsonLoader('business_id:chararray,name:chararray,address:chararray,city:chararray,state:chararray,postalcode:chararray,latitude:float,longitude:float,stars:float,review_count:int,is_open:int,                                             attributes:(GoodForKids:chararray),categories:chararray,hours:(day:chararray, hours:chararray)');
+business = LOAD 'business.json' using JsonLoader('business_id:chararray,name:chararray,address:chararray,city:chararray,state:chararray,postalcode:chararray,latitude:float,longitude:float,stars:float,review_count:int,is_open:int,
+attributes:(GoodForKids:chararray),categories:chararray,hours:(day:chararray, hours:chararray)');
 
--- LOADING AFINN WORD DICTIONARY FOR
-dictionary = load 'AFINN.txt' using PigStorage('\t') AS(word:chararray,rating:int);                                                      
+-- LOADING AFINN WORD DICTIONARY FOR 
+dictionary = load 'AFINN.txt' using PigStorage('\t') AS(word:chararray,rating:int);
+
 -- FILTERING RESTAURANTS IN THE CITY OF TORONTO
 
 filter_toronto = FILTER business BY city == 'Toronto';
@@ -42,14 +44,15 @@ businesses_reviews = JOIN foreach_business BY business_id, fr_user_reviews BY bu
 
 --ELIMINATING UNNECCESARY FIELDS FROM FINAL RELATION
 
-toronto_busrev = FOREACH businesses_reviews GENERATE
-    foreach_business::name AS business_name,
-    fr_user_reviews::foreach_user::name AS user_name,
+toronto_busrev = FOREACH businesses_reviews GENERATE 
+    foreach_business::name AS business_name,  
+    fr_user_reviews::foreach_user::name AS user_name, 
     fr_user_reviews::foreach_review::text,
-    FLATTEN(TOKENIZE(fr_user_reviews::foreach_review::text)) AS word,
+    FLATTEN(TOKENIZE(fr_user_reviews::foreach_review::text)) AS word, 
     fr_user_reviews::foreach_review::date;
 
 limfoo = LIMIT toronto_busrev 1;
 
 --DUMP limfoo;
-                                                                                                                                         --STORE limfoo into 'sentiTEST' using PigStorage(','); 
+
+STORE limfoo into 'sentiTEST' using PigStorage(',');
