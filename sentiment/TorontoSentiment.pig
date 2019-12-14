@@ -51,8 +51,4 @@ toronto_busrev = FOREACH businesses_reviews GENERATE
     FLATTEN(TOKENIZE(fr_user_reviews::foreach_review::text)) AS word, 
     fr_user_reviews::foreach_review::date;
 
-limfoo = LIMIT toronto_busrev 1;
-
---DUMP limfoo;
-
-STORE limfoo into 'sentiTEST' using PigStorage(',');
+word_rating = JOIN toronto_busrev BY word, dictionary BY word;
